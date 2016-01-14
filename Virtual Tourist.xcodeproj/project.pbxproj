@@ -15,6 +15,7 @@
 		17CB2F531C4745C40045F7B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17CB2F511C4745C40045F7B8 /* LaunchScreen.storyboard */; };
 		17CB2F5E1C4745C40045F7B8 /* Virtual_TouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2F5D1C4745C40045F7B8 /* Virtual_TouristTests.swift */; };
 		17CB2F691C4745C40045F7B8 /* Virtual_TouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2F681C4745C40045F7B8 /* Virtual_TouristUITests.swift */; };
+		17CB2F771C4746B40045F7B8 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2F761C4746B40045F7B8 /* CoreDataStackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		17CB2F641C4745C40045F7B8 /* Virtual TouristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TouristUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17CB2F681C4745C40045F7B8 /* Virtual_TouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristUITests.swift; sourceTree = "<group>"; };
 		17CB2F6A1C4745C40045F7B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17CB2F761C4746B40045F7B8 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				17CB2F511C4745C40045F7B8 /* LaunchScreen.storyboard */,
 				17CB2F541C4745C40045F7B8 /* Info.plist */,
 				17CB2F4C1C4745C40045F7B8 /* Virtual_Tourist.xcdatamodeld */,
+				17CB2F761C4746B40045F7B8 /* CoreDataStackManager.swift */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17CB2F481C4745C40045F7B8 /* ViewController.swift in Sources */,
+				17CB2F771C4746B40045F7B8 /* CoreDataStackManager.swift in Sources */,
 				17CB2F4E1C4745C40045F7B8 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				17CB2F461C4745C40045F7B8 /* AppDelegate.swift in Sources */,
 			);
