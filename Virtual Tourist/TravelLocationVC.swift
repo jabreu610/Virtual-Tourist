@@ -11,30 +11,67 @@ import MapKit
 import CoreData
 
 class TravelLocationVC: UIViewController, MKMapViewDelegate {
-
+    
+    
+    // MARK: Properties
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        let longPressPinDrop = UILongPressGestureRecognizer(target: self, action: "pinDrop:")
+        longPressPinDrop.minimumPressDuration = 0.25
+        mapView.addGestureRecognizer(longPressPinDrop)
         mapView.delegate = self
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: Actions
+    func pinDrop(gRecognizer : UIGestureRecognizer) -> Void {
+        if gRecognizer.state != .Began {
+            return
+        }
+        let touchPoint = gRecognizer.locationInView(self.mapView)
+        let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = touchMapCoordinate
+        
+        mapView.addAnnotation(annotation)
     }
-    */
-
+    
+    // MARK: MKMapViewDelegate
+    
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for view in views {
+            let mkView = view
+            
+            // Check if current annotation is inside visible map rect, else go to next one
+            let point:MKMapPoint  =  MKMapPointForCoordinate(mkView.annotation!.coordinate);
+            if (!MKMapRectContainsPoint(self.mapView.visibleMapRect, point)) {
+                continue;
+            }
+            
+            let endFrame:CGRect = mkView.frame;
+            
+            // Move annotation out of view
+            mkView.frame = CGRectMake(mkView.frame.origin.x, mkView.frame.origin.y - self.view.frame.size.height, mkView.frame.size.width, mkView.frame.size.height);
+            
+            // Animate drop
+            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations:{() in
+                mkView.frame = endFrame
+                // Animate squash
+                }, completion:{(Bool) in
+                    UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                        mkView.transform = CGAffineTransformMakeScale(1.0, 0.6)
+                        
+                        }, completion: {(Bool) in
+                            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                                mkView.transform = CGAffineTransformIdentity
+                                }, completion: nil)
+                    })
+                    
+            })
+        }
+    }
 }
