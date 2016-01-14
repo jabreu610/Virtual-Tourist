@@ -10,10 +10,13 @@ import UIKit
 import MapKit
 import CoreData
 
-class TravelLocationVC: UIViewController {
+class TravelLocationVC: UIViewController, MKMapViewDelegate {
 
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
 
         // Do any additional setup after loading the view.
     }
