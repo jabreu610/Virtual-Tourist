@@ -7,8 +7,10 @@
 //
 
 import Foundation
-import CoreData
+import UIKit
 
-class Photo: NSManagedObject {
+struct Photo {
+    
+    static var image : UIImage?
 
 }

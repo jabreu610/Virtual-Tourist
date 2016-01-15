@@ -8,7 +8,7 @@
         <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TravelLocationVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TravelLocationVC" id="BYZ-38-t0r" customClass="TravelLocationVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,7 +32,7 @@
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="OoC-gT-MK7"/>
                     <connections>
                         <outlet property="mapView" destination="tsn-bA-SJs" id="AHw-jT-dSV"/>
-                        <segue destination="Vgq-fb-Ipl" kind="show" id="hh1-E5-Ya6"/>
+                        <segue destination="Vgq-fb-Ipl" kind="show" identifier="ToPhotoAlbumVC" id="hh1-E5-Ya6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -42,7 +42,7 @@
         <!--Photo AlbumVC-->
         <scene sceneID="I5e-P6-dGd">
             <objects>
-                <viewController id="Vgq-fb-Ipl" customClass="PhotoAlbumVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumVC" id="Vgq-fb-Ipl" customClass="PhotoAlbumVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sjy-Wb-L6T"/>
                         <viewControllerLayoutGuide type="bottom" id="lPE-4N-wVz"/>
@@ -71,16 +71,16 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rku-UQ-i9I">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-Xj-fWs">
+                                <rect key="frame" x="0.0" y="562" width="600" height="30"/>
+                                <state key="normal" title="New Collection"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rku-UQ-i9I">
                                 <rect key="frame" x="0.0" y="64" width="600" height="163"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="163" id="kaM-0s-COH"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-Xj-fWs">
-                                <rect key="frame" x="0.0" y="562" width="600" height="30"/>
-                                <state key="normal" title="New Collection"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -96,6 +96,9 @@
                             <constraint firstItem="Yuw-Xj-fWs" firstAttribute="leading" secondItem="FZy-Va-D8U" secondAttribute="leading" id="w9Q-KY-ltb"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapSnapshot" destination="Rku-UQ-i9I" id="diy-a0-yke"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3AR-Jp-WPC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

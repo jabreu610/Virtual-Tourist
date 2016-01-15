@@ -7,26 +7,16 @@
 //
 
 import MapKit
-import CoreData
 
-class Pin: NSManagedObject, MKAnnotation {
+class Pin: NSObject, MKAnnotation {
     
-    struct Keys {
-        static let Coordinate = "coordinate"
-        static let Photos = "photos"
+    
+    @objc var coordinate : CLLocationCoordinate2D
+    var photos : [Photo]?
+    
+    init(coordinate: CLLocationCoordinate2D) {
+        self.coordinate = coordinate
     }
     
-    @NSManaged var coordinate : CLLocationCoordinate2D
-    @NSManaged var photos : [Photo]
-    
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
-    }
-    
-    init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
-        let entity = NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
-        coordinate = dictionary[Keys.Coordinate] as! CLLocationCoordinate2D
-    }
 
 }

@@ -14,7 +14,7 @@ extension Flickr {
     struct Constants {
         
         // MARK: URL
-        static let baseURL : String = "https://api.flickr.com/services/rest/"
+        static let BaseURL : String = "https://api.flickr.com/services/rest/"
         
         // MARK: API Key
         static let APIKey : String = "d68e3126bb9d0d1dda7d39cb7f22ec50"
@@ -22,9 +22,18 @@ extension Flickr {
     
     // MARK: Methods
     struct Methods {
-        
-        static let search : String = "flicker.photos.search"
-        
+        static let Search : String = "flickr.photos.search"
+    }
+    
+    // MARK: Keys
+    struct Keys {
+        static let Method : String = "method"
+        static let Api_Key : String = "api_key"
+        static let BBox : String = "bbox"
+        static let SafeSearch : String = "safe_search"
+        static let Extras : String = "extras"
+        static let Format : String = "format"
+        static let No_JSON_Callback : String = "nojsoncallback"
     }
     
 }

@@ -13,7 +13,7 @@ import CoreData
 class TravelLocationVC: UIViewController, MKMapViewDelegate {
     
     
-    // MARK: Properties
+    // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     
     // MARK: Life Cycle
@@ -23,8 +23,9 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         longPressPinDrop.minimumPressDuration = 0.25
         mapView.addGestureRecognizer(longPressPinDrop)
         mapView.delegate = self
-        
     }
+    
+    
     
     // MARK: Actions
     func pinDrop(gRecognizer : UIGestureRecognizer) -> Void {
@@ -34,14 +35,11 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         let touchPoint = gRecognizer.locationInView(self.mapView)
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = touchMapCoordinate
-        
+        let annotation = Pin(coordinate: touchMapCoordinate)
         mapView.addAnnotation(annotation)
     }
     
     // MARK: MKMapViewDelegate
-    
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         for view in views {
             let mkView = view
@@ -72,6 +70,19 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
                     })
                     
             })
+        }
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(view.annotation!.coordinate) { results, error in
+            if let results = results {
+                Photo.image = results
+                dispatch_async(dispatch_get_main_queue()){
+                    self.performSegueWithIdentifier("ToPhotoAlbumVC", sender: nil)
+                }
+            } else {
+                print(error)
+            }
         }
     }
 }
