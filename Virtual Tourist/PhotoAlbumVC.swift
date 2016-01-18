@@ -10,10 +10,13 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumVC: UIViewController {
+let reuseIdentifier = "collectionViewCell"
+
+class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: Outlets
     @IBOutlet weak var mapSnapshot: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // NARK: Properties
     
@@ -23,7 +26,22 @@ class PhotoAlbumVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        mapSnapshot.image = Photo.image
+    }
+    
+    // MARK: Collection View
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
+        let photo = Photo.image
+        
+        // Configure the cell
+        cell.imageView.image = photo
+        
+        return cell
     }
 
 }
