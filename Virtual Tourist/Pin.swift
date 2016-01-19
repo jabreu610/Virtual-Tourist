@@ -12,7 +12,7 @@ class Pin: NSObject, MKAnnotation {
     
     
     @objc var coordinate : CLLocationCoordinate2D
-    var photos : [Photo]?
+    var photos : Photo?
     
     init(coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate

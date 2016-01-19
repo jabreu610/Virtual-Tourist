@@ -19,6 +19,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     @IBOutlet weak var collectionView: UICollectionView!
     
     // NARK: Properties
+    var pin: Pin!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,16 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) {JSONResult, error in
+            if let error = error {
+                print(error)
+            } else {
+                self.pin.photos?.image = JSONResult
+                dispatch_async(dispatch_get_main_queue()){
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
     
     // MARK: Collection View
@@ -36,10 +47,10 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
-        let photo = Photo.image
+        let photo = pin.photos
         
         // Configure the cell
-        cell.imageView.image = photo
+        cell.imageView.image = photo?.image
         
         return cell
     }

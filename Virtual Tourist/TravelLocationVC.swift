@@ -74,15 +74,11 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(view.annotation!.coordinate) { results, error in
-            if let results = results {
-                Photo.image = results
-                dispatch_async(dispatch_get_main_queue()){
-                    self.performSegueWithIdentifier("ToPhotoAlbumVC", sender: nil)
-                }
-            } else {
-                print(error)
-            }
-        }
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumVC") as! PhotoAlbumVC
+        
+        let annotation = view.annotation as! Pin
+        controller.pin = annotation
+        
+        self.navigationController!.pushViewController(controller, animated: true)
     }
 }
