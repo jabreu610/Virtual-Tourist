@@ -12,5 +12,6 @@ import UIKit
 struct Photo {
     
     static var image : UIImage?
+    
 
 }

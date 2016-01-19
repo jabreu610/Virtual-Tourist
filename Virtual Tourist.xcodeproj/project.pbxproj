@@ -90,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		173499781C4E0A5F0082BD13 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				17CB2F7A1C4749D40045F7B8 /* TravelLocationVC.swift */,
+				17CB2F7D1C474A390045F7B8 /* PhotoAlbumVC.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		1765A6E31C4DA557000A2839 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,16 +130,15 @@
 		17CB2F441C4745C40045F7B8 /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
-				1765A6E31C4DA557000A2839 /* View */,
 				17CB2F761C4746B40045F7B8 /* CoreDataStackManager.swift */,
-				17CB2F7A1C4749D40045F7B8 /* TravelLocationVC.swift */,
-				17CB2F7D1C474A390045F7B8 /* PhotoAlbumVC.swift */,
 				17CB2F451C4745C40045F7B8 /* AppDelegate.swift */,
 				17CB2F491C4745C40045F7B8 /* Main.storyboard */,
 				17CB2F4F1C4745C40045F7B8 /* Assets.xcassets */,
 				17CB2F511C4745C40045F7B8 /* LaunchScreen.storyboard */,
 				17CB2F541C4745C40045F7B8 /* Info.plist */,
 				17CB2F4C1C4745C40045F7B8 /* Virtual_Tourist.xcdatamodeld */,
+				173499781C4E0A5F0082BD13 /* Controller */,
+				1765A6E31C4DA557000A2839 /* View */,
 				17CB2F7F1C474B7B0045F7B8 /* Flickr */,
 			);
 			path = "Virtual Tourist";
