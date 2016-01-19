@@ -27,21 +27,52 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        dispatch_async(dispatch_get_main_queue()){
-            self.collectionView.reloadData()
+        
+        if pin.photos.isEmpty {
+            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { imageData, error in
+                if let error = error{
+                    print(error)
+                } else {
+                    let photo = Photo(path: imageData)
+                    print(imageData)
+                    self.pin.photos.append(photo)
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.collectionView.reloadData()
+                    }
+                }
+               
+            }
         }
+      
     }
     
     // MARK: Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return pin.photos.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let photo = pin.photos[indexPath.row]
+        var cellImage = UIImage(named: "placeholderImage")
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
         
         // Configure the cell
+        
+        if photo.image != nil {
+            cellImage = photo.image
+        } else {
+            if let imageData = NSData(contentsOfURL: NSURL(string: photo.imagePath!)!){
+                let image = UIImage(data: imageData)
+                photo.image = image
+                dispatch_async(dispatch_get_main_queue()){
+                    cell.imageView.image = image
+                }
+            }
+        }
+        
+        cell.imageView.image = cellImage
         
         return cell
     }
