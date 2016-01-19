@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1729147F1C4ED0B900A65BCF /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1729147E1C4ED0B900A65BCF /* ImageCache.swift */; };
 		1765A6E51C4DA580000A2839 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765A6E41C4DA580000A2839 /* CollectionViewCell.swift */; };
 		17CB2F461C4745C40045F7B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2F451C4745C40045F7B8 /* AppDelegate.swift */; };
 		17CB2F4B1C4745C40045F7B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17CB2F491C4745C40045F7B8 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1729147E1C4ED0B900A65BCF /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		1765A6E41C4DA580000A2839 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		17CB2F421C4745C40045F7B8 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17CB2F451C4745C40045F7B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				17CB2F821C474C350045F7B8 /* FlickrConstants.swift */,
 				17CB2F841C474C6C0045F7B8 /* Pin.swift */,
 				17CB2F861C474C8A0045F7B8 /* Photo.swift */,
+				1729147E1C4ED0B900A65BCF /* ImageCache.swift */,
 			);
 			name = Flickr;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1729147F1C4ED0B900A65BCF /* ImageCache.swift in Sources */,
 				1765A6E51C4DA580000A2839 /* CollectionViewCell.swift in Sources */,
 				17CB2F831C474C350045F7B8 /* FlickrConstants.swift in Sources */,
 				17CB2F771C4746B40045F7B8 /* CoreDataStackManager.swift in Sources */,

@@ -9,9 +9,17 @@
 import Foundation
 import UIKit
 
-struct Photo {
+class Photo {
     
-    var image : UIImage?
+    var imagePath : String?
     
+    init(path: String){
+        imagePath = path
+    }
+    
+    var image : UIImage? {
+        get { return Flickr.Caches.imageCache.imageWithIdentifier(imagePath) }
+        set { Flickr.Caches.imageCache.storeImage(newValue, withIdentifier: imagePath!) }
+    }
 
 }

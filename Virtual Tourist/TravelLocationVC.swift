@@ -16,6 +16,9 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Properties
+    var locations = [Pin]()
+    
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +27,6 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(longPressPinDrop)
         mapView.delegate = self
     }
-    
-    
     
     // MARK: Actions
     func pinDrop(gRecognizer : UIGestureRecognizer) -> Void {
@@ -36,8 +37,10 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         
         let annotation = Pin(coordinate: touchMapCoordinate)
+        locations.append(annotation)
         mapView.addAnnotation(annotation)
     }
+    
     
     // MARK: MKMapViewDelegate
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
@@ -75,10 +78,15 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumVC") as! PhotoAlbumVC
-        
-        let annotation = view.annotation as! Pin
-        controller.pin = annotation
-        
+        var index : Int = 0
+        for location in self.locations {
+            if location == view.annotation as! Pin {
+                break;
+            } else {
+                index++
+            }
+        }
+        controller.pin = self.locations[index]
         self.navigationController!.pushViewController(controller, animated: true)
     }
 }

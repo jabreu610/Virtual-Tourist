@@ -123,8 +123,6 @@ class Flickr: NSObject {
         
         return "\(bottom_left_lon),\(bottom_left_lat),\(top_right_lon),\(top_right_lat)"
     }
-
-
    
     // Escape HTML Parameters
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
@@ -145,6 +143,11 @@ class Flickr: NSObject {
         }
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+    }
+    
+    // MARK: - Shared Image Cache
+    struct Caches {
+        static let imageCache = ImageCache()
     }
 
 }

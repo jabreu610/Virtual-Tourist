@@ -10,13 +10,14 @@ import MapKit
 
 class Pin: NSObject, MKAnnotation {
     
-    
-    @objc var coordinate : CLLocationCoordinate2D
-    var photos : Photo?
-    
-    init(coordinate: CLLocationCoordinate2D) {
-        self.coordinate = coordinate
+    struct Keys {
+        
     }
     
-
+    var photos : [Photo] = [Photo]()
+    var coordinate : CLLocationCoordinate2D
+    
+    init(coordinate : CLLocationCoordinate2D) {
+        self.coordinate = coordinate
+    }
 }
