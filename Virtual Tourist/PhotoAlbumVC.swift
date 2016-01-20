@@ -31,17 +31,20 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        mapView.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
-        mapView.addAnnotation(pin)
+        mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)
+        mapView.addAnnotation(annotation)
         
         if pin.photos.isEmpty {
-            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
+            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)) { Results, error in
                 if let error = error{
                     print(error)
                 } else {
                     for imageData in Results! {
                         let photo = Photo(path: imageData)
                         print(imageData)
+                        photo.pin = self.pin 
                         self.pin.photos.append(photo)
                     }
                 }

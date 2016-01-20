@@ -8,16 +8,18 @@
 
 import MapKit
 
-class Pin: NSObject, MKAnnotation {
+class Pin: NSObject {
     
     struct Keys {
         
     }
     
     var photos : [Photo] = [Photo]()
-    var coordinate : CLLocationCoordinate2D
+    var long : NSNumber
+    var lat : NSNumber
     
     init(coordinate : CLLocationCoordinate2D) {
-        self.coordinate = coordinate
+        self.long = coordinate.longitude as NSNumber
+        self.lat = coordinate.latitude as NSNumber
     }
 }

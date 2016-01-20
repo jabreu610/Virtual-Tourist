@@ -12,6 +12,7 @@ import UIKit
 class Photo {
     
     var imagePath : String?
+    var pin : Pin?
     
     init(path: String){
         imagePath = path
