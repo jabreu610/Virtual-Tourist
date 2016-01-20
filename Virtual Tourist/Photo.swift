@@ -6,15 +6,21 @@
 //  Copyright © 2016 Jordany Abreu. All rights reserved.
 //
 
-import Foundation
+import CoreData
 import UIKit
 
-class Photo {
+class Photo : NSManagedObject {
     
-    var imagePath : String?
-    var pin : Pin?
+    @NSManaged var imagePath : String?
+    @NSManaged var pin : Pin?
     
-    init(path: String){
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    }
+    
+    init(path: String, context: NSManagedObjectContext){
+        let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
         imagePath = path
     }
     

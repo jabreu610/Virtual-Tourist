@@ -19,6 +19,18 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     // MARK: Properties
     var locations = [Pin]()
     
+    
+    // MARK: - Core Data Convenience
+    lazy var sharedContext: NSManagedObjectContext =  {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
+    
+    func saveContext() {
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+    
+
+    
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +38,8 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         longPressPinDrop.minimumPressDuration = 0.25
         mapView.addGestureRecognizer(longPressPinDrop)
         mapView.delegate = self
+        locations = fetchAllPins()
+        restoreFetchedPins(locations)
     }
     
     // MARK: Actions
@@ -38,10 +52,11 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
-        let pin = Pin(coordinate: annotation.coordinate)
+        let pin = Pin(coordinate: annotation.coordinate, context: self.sharedContext)
         prefetchImages(pin)
         locations.append(pin)
         mapView.addAnnotation(annotation)
+        self.saveContext()
     }
     
     func prefetchImages(pin: Pin){
@@ -50,13 +65,37 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
                 print(error)
             } else {
                 for imageData in Results! {
-                    let photo = Photo(path: imageData)
+                    let photo = Photo(path: imageData, context: self.sharedContext)
                     print(imageData)
-                    pin.photos.append(photo)
+                    photo.pin = pin 
+                    self.saveContext()
                 }
             }
         }
     }
+    
+    func fetchAllPins() -> [Pin] {
+        
+        // Create the Fetch Request
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        // Execute the Fetch Request
+        do {
+            return try sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
+        } catch  let error as NSError {
+            print("Error in fetchAllPins(): \(error)")
+            return [Pin]()
+        }
+    }
+    
+    func restoreFetchedPins(locations: [Pin]){
+        for pin in locations {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)
+            mapView.addAnnotation(annotation)
+        }
+    }
+
     
     
     // MARK: MKMapViewDelegate

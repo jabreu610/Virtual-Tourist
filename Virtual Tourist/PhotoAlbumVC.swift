@@ -21,6 +21,17 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     // NARK: Properties
     var pin: Pin!
     
+    
+    // MARK: - Core Data Convenience
+    lazy var sharedContext: NSManagedObjectContext =  {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
+    
+    func saveContext() {
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+
+    // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -42,15 +53,15 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
                     print(error)
                 } else {
                     for imageData in Results! {
-                        let photo = Photo(path: imageData)
+                        let photo = Photo(path: imageData, context: self.sharedContext)
                         print(imageData)
                         photo.pin = self.pin 
-                        self.pin.photos.append(photo)
                     }
                 }
                 dispatch_async(dispatch_get_main_queue()){
                     self.collectionView.reloadData()
                 }
+                self.saveContext()
             }
         }
         
