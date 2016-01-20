@@ -117,11 +117,13 @@ class Flickr: NSObject {
     // Lat/Lon Manipulation
     class func createBoundingBoxString(lat: CLLocationDegrees, long: CLLocationDegrees) -> String {
         
+        let range = 0.25
+        
         /* Fix added to ensure box is bounded by minimum and maximums */
-        let bottom_left_lon = max(long - 1.0, -180.0)
-        let bottom_left_lat = max(lat - 1.0, -90.0)
-        let top_right_lon = min(long + 1.0, 180.0)
-        let top_right_lat = min(lat + 1.0, 90.0)
+        let bottom_left_lon = max(long - range, -180.0)
+        let bottom_left_lat = max(lat - range, -90.0)
+        let top_right_lon = min(long + range, 180.0)
+        let top_right_lat = min(lat + range, 90.0)
         
         return "\(bottom_left_lon),\(bottom_left_lat),\(top_right_lon),\(top_right_lat)"
     }

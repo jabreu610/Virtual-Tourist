@@ -37,8 +37,23 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         
         let annotation = Pin(coordinate: touchMapCoordinate)
+        prefetchImages(annotation)
         locations.append(annotation)
         mapView.addAnnotation(annotation)
+    }
+    
+    func prefetchImages(pin: Pin){
+        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
+            if let error = error{
+                print(error)
+            } else {
+                for imageData in Results! {
+                    let photo = Photo(path: imageData)
+                    print(imageData)
+                    pin.photos.append(photo)
+                }
+            }
+        }
     }
     
     
