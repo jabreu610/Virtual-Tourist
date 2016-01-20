@@ -42,7 +42,7 @@ class Flickr: NSObject {
         return task
     }
     
-    func searchForSingleImageBaseOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: String!, error: NSError?) -> Void) {
+    func searchForSingleImageBaseOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: [String]?, error: NSError?) -> Void) {
         let mutableArguements = [
             Keys.Method : Methods.Search,
             Keys.Api_Key : Constants.APIKey,
@@ -64,12 +64,18 @@ class Flickr: NSObject {
                     print("Cannot find key 'photo' in \(photosDictionary)")
                     return
                 }
-                let photoDictionary = photosArray[1] as [String : AnyObject]
-                guard let imageURLString = photoDictionary["url_m"] as? String else {
-                    print("Cannot find key 'url_m' in \(photoDictionary)")
-                    return
+                
+                var index = 0
+                var imageDataArray : [String] = []
+                for photos in photosArray {
+                    if index < 21 {
+                        imageDataArray.append(photos["url_m"] as! String)
+                    } else {
+                        break
+                    }
+                    index++
                 }
-                completionHander(result: imageURLString, error: nil)
+                completionHander(result: imageDataArray, error: nil)
                 
             }
             

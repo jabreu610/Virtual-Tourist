@@ -29,21 +29,22 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         super.viewWillAppear(true)
         
         if pin.photos.isEmpty {
-            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { imageData, error in
+            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
                 if let error = error{
                     print(error)
                 } else {
-                    let photo = Photo(path: imageData)
-                    print(imageData)
-                    self.pin.photos.append(photo)
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.collectionView.reloadData()
+                    for imageData in Results! {
+                        let photo = Photo(path: imageData)
+                        print(imageData)
+                        self.pin.photos.append(photo)
                     }
                 }
-               
+                dispatch_async(dispatch_get_main_queue()){
+                    self.collectionView.reloadData()
+                }
             }
         }
-      
+        
     }
     
     // MARK: Collection View
