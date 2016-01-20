@@ -12,21 +12,27 @@ import CoreData
 
 let reuseIdentifier = "collectionViewCell"
 
-class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, MKMapViewDelegate {
     
     // MARK: Outlets
-    @IBOutlet weak var mapSnapshot: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var mapView: MKMapView!
     
     // NARK: Properties
     var pin: Pin!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
+        mapView.scrollEnabled = false
+        mapView.zoomEnabled = false
+        mapView.rotateEnabled = false
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        mapView.region = MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        mapView.addAnnotation(pin)
         
         if pin.photos.isEmpty {
             Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
