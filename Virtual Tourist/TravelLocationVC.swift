@@ -50,17 +50,15 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         let touchPoint = gRecognizer.locationInView(self.mapView)
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = touchMapCoordinate
-        let pin = Pin(coordinate: annotation.coordinate, context: self.sharedContext)
+        let pin = Pin(coordinate: touchMapCoordinate, context: self.sharedContext)
         prefetchImages(pin)
         locations.append(pin)
-        mapView.addAnnotation(annotation)
+        mapView.addAnnotation(pin)
         self.saveContext()
     }
     
     func prefetchImages(pin: Pin){
-        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)) { Results, error in
+        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
             if let error = error{
                 print(error)
             } else {
@@ -143,6 +141,7 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
             }
         }
         controller.pin = self.locations[index]
+        mapView.deselectAnnotation(view.annotation, animated: false)
         self.navigationController!.pushViewController(controller, animated: true)
     }
 }

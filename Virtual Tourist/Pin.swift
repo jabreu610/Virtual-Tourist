@@ -9,7 +9,7 @@
 import MapKit
 import CoreData
 
-class Pin: NSManagedObject {
+class Pin: NSManagedObject, MKAnnotation {
     
     @NSManaged var photos : [Photo]
     @NSManaged var long : NSNumber
@@ -24,5 +24,10 @@ class Pin: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         self.long = coordinate.longitude as NSNumber
         self.lat = coordinate.latitude as NSNumber
+    }
+    
+    // MARK - MKAnnotation
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: lat as Double, longitude: long as Double)
     }
 }
