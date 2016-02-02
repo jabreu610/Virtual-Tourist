@@ -88,7 +88,6 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
     }
     
     // MARK: Collection View
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pin.photos.count
     }
@@ -104,13 +103,18 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         if photo.image != nil {
             cellImage = photo.image
         } else {
-            if let imageData = NSData(contentsOfURL: NSURL(string: photo.imagePath!)!){
-                let image = UIImage(data: imageData)
-                photo.image = image
-                dispatch_async(dispatch_get_main_queue()){
-                    cell.imageView.image = image
+            Flickr.sharedInstance().taskForImage(photo.imagePath!) { imageData, error in
+                if let error = error{
+                    print(error)
+                } else {
+                    cellImage = UIImage(data: imageData!)
+                    dispatch_async(dispatch_get_main_queue()){
+                        cell.imageView.image = cellImage
+                    }
                 }
+                
             }
+            
         }
         
         cell.imageView.image = cellImage
