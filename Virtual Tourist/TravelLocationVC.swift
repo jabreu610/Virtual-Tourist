@@ -58,7 +58,7 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     }
     
     func prefetchImages(pin: Pin){
-        Flickr.sharedInstance().searchForSingleImageBaseOnLocation(pin.coordinate) { Results, error in
+        Flickr.sharedInstance().getPathForImageBasedOnLocation(pin.coordinate) { Results, error in
             if let error = error{
                 print(error)
             } else {

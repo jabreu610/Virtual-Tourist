@@ -27,6 +27,23 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }()
     
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin);
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+            managedObjectContext: self.sharedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        return fetchedResultsController
+        
+    }()
+
+    
     func saveContext() {
         CoreDataStackManager.sharedInstance().saveContext()
     }
@@ -38,6 +55,9 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         mapView.scrollEnabled = false
         mapView.zoomEnabled = false
         mapView.rotateEnabled = false
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {}
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -48,7 +68,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         mapView.addAnnotation(annotation)
         
         if pin.photos.isEmpty {
-            Flickr.sharedInstance().searchForSingleImageBaseOnLocation(CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)) { Results, error in
+            Flickr.sharedInstance().getPathForImageBasedOnLocation(CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)) { Results, error in
                 if let error = error{
                     print(error)
                 } else {

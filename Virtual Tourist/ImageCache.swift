@@ -63,8 +63,10 @@ class ImageCache {
     // MARK: - Helper
     
     func pathForIdentifier(identifier: String) -> String {
+        let idAsURL = NSURL(string: identifier)
+        let id = idAsURL?.pathComponents![1]
         let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)
+        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(id!)
         
         return fullURL.path!
     }

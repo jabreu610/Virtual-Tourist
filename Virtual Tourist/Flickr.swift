@@ -42,7 +42,7 @@ class Flickr: NSObject {
         return task
     }
     
-    func searchForSingleImageBaseOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: [String]?, error: NSError?) -> Void) {
+    func getPathForImageBasedOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: [String]?, error: NSError?) -> Void) {
         let mutableArguements = [
             Keys.Method : Methods.Search,
             Keys.Api_Key : Constants.APIKey,
@@ -81,6 +81,31 @@ class Flickr: NSObject {
             
         }
     }
+    
+    // MARK: - All purpose task method for images
+    
+    func taskForImageWithSize(filePath: String, completionHandler: (imageData: NSData?, error: NSError?) ->  Void) -> NSURLSessionTask {
+        
+        let url = NSURL(string: filePath)
+        
+        print(url)
+        
+        let request = NSURLRequest(URL: url!)
+        
+        let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+            
+            if let error = downloadError {
+                completionHandler(imageData: nil, error: error)
+            } else {
+                completionHandler(imageData: data, error: nil)
+            }
+        }
+        
+        task.resume()
+        
+        return task
+    }
+
     
     // MARK: - Shared Instance
     
