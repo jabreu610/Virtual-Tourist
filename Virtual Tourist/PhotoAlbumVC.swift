@@ -99,8 +99,9 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
         
         // Configure the cell
-        
-        if photo.image != nil {
+        if photo.imagePath == nil || photo.imagePath == "" {
+            cellImage = UIImage(named: "noimage")
+        } else if photo.image != nil {
             cellImage = photo.image
         } else {
             Flickr.sharedInstance().taskForImage(photo.imagePath!) { imageData, error in
