@@ -42,7 +42,7 @@ class Flickr: NSObject {
         return task
     }
     
-    func getPathForImageBasedOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: [String]?, error: NSError?) -> Void) {
+    func getPathForImageBasedOnLocation(coordinates: CLLocationCoordinate2D, completionHander : (result: [[String : String]]?, error: NSError?) -> Void) {
         let mutableArguements = [
             Keys.Method : Methods.Search,
             Keys.Api_Key : Constants.APIKey,
@@ -53,6 +53,7 @@ class Flickr: NSObject {
             Keys.No_JSON_Callback : "1"
         ]
         taskForResource(mutableArguements){JSONResult, error in
+            var resultsDictionary = [[String : String]]()
             if let error = error {
                 print(error)
             } else {
@@ -66,16 +67,19 @@ class Flickr: NSObject {
                 }
                 
                 var index = 0
-                var imageDataArray : [String] = []
                 for photos in photosArray {
                     if index < 21 {
-                        imageDataArray.append(photos["url_m"] as! String)
+                        let imageURLString = photos["url_m"] as! String
+                        let id = photos["id"] as! String
+                        let entry = ["imageURLString": imageURLString, "id": id]
+                        print(entry)
+                        resultsDictionary.append(entry)
                     } else {
                         break
                     }
                     index++
                 }
-                completionHander(result: imageDataArray, error: nil)
+                completionHander(result: resultsDictionary, error: nil)
                 
             }
             

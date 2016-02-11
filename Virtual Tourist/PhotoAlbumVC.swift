@@ -73,7 +73,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
                     print(error)
                 } else {
                     for imageData in Results! {
-                        _ = Photo(path: imageData, pin: self.pin, context: self.sharedContext)
+                        _ = Photo(path: imageData["imageURLString"]!, pin: self.pin, identifier: imageData["id"]!, context: self.sharedContext)
                     }
                 }
                 dispatch_async(dispatch_get_main_queue()){
