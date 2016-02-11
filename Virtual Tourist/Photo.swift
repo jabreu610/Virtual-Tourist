@@ -18,10 +18,11 @@ class Photo : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(path: String, context: NSManagedObjectContext){
+    init(path: String, pin: Pin, context: NSManagedObjectContext){
         let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         imagePath = path
+        self.pin = pin
     }
     
     var image : UIImage? {

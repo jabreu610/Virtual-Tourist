@@ -73,9 +73,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
                     print(error)
                 } else {
                     for imageData in Results! {
-                        let photo = Photo(path: imageData, context: self.sharedContext)
-                        print(imageData)
-                        photo.pin = self.pin 
+                        _ = Photo(path: imageData, pin: self.pin, context: self.sharedContext)
                     }
                 }
                 dispatch_async(dispatch_get_main_queue()){
@@ -109,6 +107,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
                     print(error)
                 } else {
                     cellImage = UIImage(data: imageData!)
+                    photo.image = cellImage
                     dispatch_async(dispatch_get_main_queue()){
                         cell.imageView.image = cellImage
                     }

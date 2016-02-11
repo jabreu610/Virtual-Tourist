@@ -63,9 +63,7 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
                 print(error)
             } else {
                 for imageData in Results! {
-                    let photo = Photo(path: imageData, context: self.sharedContext)
-                    print(imageData)
-                    photo.pin = pin 
+                    _ = Photo(path: imageData, pin: pin, context: self.sharedContext)
                     self.saveContext()
                 }
             }
