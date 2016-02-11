@@ -18,6 +18,7 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     
     // MARK: Properties
     var locations = [Pin]()
+    var savedRegion = MKCoordinateRegion()
     
     
     // MARK: - Core Data Convenience
@@ -40,6 +41,12 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         locations = fetchAllPins()
         restoreFetchedPins(locations)
+        restoreMapRegion()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        mapView.setRegion(savedRegion, animated: true)
     }
     
     // MARK: Actions
@@ -141,5 +148,43 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
         controller.pin = self.locations[index]
         mapView.deselectAnnotation(view.annotation, animated: false)
         self.navigationController!.pushViewController(controller, animated: true)
+    }
+    
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let regionCenterLat = mapView.region.center.latitude
+        let regionCenterLong = mapView.region.center.longitude
+        let regionSpanLat = mapView.region.span.latitudeDelta
+        let regionSpanLong = mapView.region.span.longitudeDelta
+        
+        var mapDictionary = [ String : CLLocationDegrees ]()
+        mapDictionary.updateValue( regionCenterLat, forKey: "centerLatitude" )
+        mapDictionary.updateValue( regionCenterLong, forKey: "centerLongitude" )
+        mapDictionary.updateValue( regionSpanLat, forKey: "spanLatitudeDelta" )
+        mapDictionary.updateValue( regionSpanLong, forKey: "spanLongitudeDelta" )
+        
+        NSUserDefaults.standardUserDefaults().setObject(mapDictionary, forKey: "mapRegion")
+        
+    }
+    
+    func restoreMapRegion(){
+        if let mapRegion = NSUserDefaults.standardUserDefaults().dictionaryForKey("mapRegion") {
+            let centerLatitude = mapRegion[ "centerLatitude" ] as! Double
+            let centerLongitude = mapRegion[ "centerLongitude" ] as! Double
+            let spanLatDelta = mapRegion[ "spanLatitudeDelta" ] as! Double
+            let spanLongDelta = mapRegion[ "spanLongitudeDelta" ] as! Double
+            
+            let newMapRegion = MKCoordinateRegion(
+                center: CLLocationCoordinate2D(
+                    latitude: centerLatitude,
+                    longitude: centerLongitude
+                ),
+                span: MKCoordinateSpan(
+                    latitudeDelta: spanLatDelta,
+                    longitudeDelta: spanLongDelta
+                )
+            )
+            
+            savedRegion = newMapRegion
+        }
     }
 }
