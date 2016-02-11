@@ -99,8 +99,10 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         // Configure the cell
         if photo.imagePath == nil || photo.imagePath == "" {
             cellImage = UIImage(named: "noimage")
+            cell.activityInd.stopAnimating()
         } else if photo.image != nil {
             cellImage = photo.image
+            cell.activityInd.stopAnimating()
         } else {
             Flickr.sharedInstance().taskForImage(photo.imagePath!) { imageData, error in
                 if let error = error{
@@ -110,15 +112,14 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
                     photo.image = cellImage
                     dispatch_async(dispatch_get_main_queue()){
                         cell.imageView.image = cellImage
+                        cell.activityInd.stopAnimating()
                     }
+                    
                 }
                 
             }
-            
+            cell.imageView.image = cellImage
         }
-        
-        cell.imageView.image = cellImage
-        
         return cell
     }
 
