@@ -99,9 +99,11 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         // Configure the cell
         if photo.imagePath == nil || photo.imagePath == "" {
             cellImage = UIImage(named: "noimage")
+            cell.imageView.image = cellImage
             cell.activityInd.stopAnimating()
         } else if photo.image != nil {
             cellImage = photo.image
+            cell.imageView.image = cellImage
             cell.activityInd.stopAnimating()
         } else {
             Flickr.sharedInstance().taskForImage(photo.imagePath!) { imageData, error in

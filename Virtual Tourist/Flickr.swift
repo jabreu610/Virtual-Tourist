@@ -72,7 +72,6 @@ class Flickr: NSObject {
                         let imageURLString = photos["url_m"] as! String
                         let id = photos["id"] as! String
                         let entry = ["imageURLString": imageURLString, "id": id]
-                        print(entry)
                         resultsDictionary.append(entry)
                     } else {
                         break
