@@ -34,6 +34,8 @@ extension Flickr {
         static let Extras : String = "extras"
         static let Format : String = "format"
         static let No_JSON_Callback : String = "nojsoncallback"
+        static let PerPage : String = "per_page"
+        static let Page : String = "page"
     }
     
 }

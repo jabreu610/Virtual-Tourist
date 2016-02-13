@@ -50,7 +50,9 @@ class Flickr: NSObject {
             Keys.SafeSearch : "1",
             Keys.Extras : "url_m",
             Keys.Format : "json",
-            Keys.No_JSON_Callback : "1"
+            Keys.No_JSON_Callback : "1",
+            Keys.PerPage : "21",
+            Keys.Page : Flickr.randomPage()
         ]
         taskForResource(mutableArguements){JSONResult, error in
             var resultsDictionary = [[String : String]]()
@@ -173,6 +175,13 @@ class Flickr: NSObject {
         }
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+    }
+    
+    // Random Int as String
+    class func randomPage() -> String {
+        let number = Int(arc4random_uniform(10) + 1)
+        print(String(number))
+        return String(number)
     }
     
     // MARK: - Shared Image Cache

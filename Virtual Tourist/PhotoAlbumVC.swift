@@ -42,12 +42,12 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         return fetchedResultsController
         
     }()
-
+    
     
     func saveContext() {
         CoreDataStackManager.sharedInstance().saveContext()
     }
-
+    
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +85,31 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         
     }
     
+    // MARK: Actions
+    @IBAction func newCollection(sender: AnyObject) {
+        for photo in pin.photos {
+            photo.pin = nil
+            sharedContext.deleteObject(photo)
+            Flickr.Caches.imageCache.deleteImages(photo.id!)
+            self.saveContext()
+        }
+        if pin.photos.isEmpty {
+            Flickr.sharedInstance().getPathForImageBasedOnLocation(CLLocationCoordinate2DMake(pin.lat as Double, pin.long as Double)) { Results, error in
+                if let error = error{
+                    print(error)
+                } else {
+                    for imageData in Results! {
+                        _ = Photo(path: imageData["imageURLString"]!, pin: self.pin, identifier: imageData["id"]!, context: self.sharedContext)
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue()){
+                    self.collectionView.reloadData()
+                }
+                self.saveContext()
+            }
+        }
+    }
+    
     // MARK: Collection View
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pin.photos.count
@@ -106,6 +131,7 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         var cellImage = UIImage(named: "placeholderImage")
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
+        cell.activityInd.startAnimating()
         
         // Configure the cell
         if photo.imagePath == nil || photo.imagePath == "" {
@@ -135,5 +161,5 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         }
         return cell
     }
-
+    
 }

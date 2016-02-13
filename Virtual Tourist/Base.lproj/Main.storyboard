@@ -57,6 +57,9 @@
                                     <constraint firstAttribute="width" constant="121" id="UKZ-aW-Ghy"/>
                                 </constraints>
                                 <state key="normal" title="New Collection"/>
+                                <connections>
+                                    <action selector="newCollection:" destination="Vgq-fb-Ipl" eventType="touchUpInside" id="WFJ-bz-kTJ"/>
+                                </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="de4-L3-83P">
                                 <rect key="frame" x="0.0" y="64" width="600" height="163"/>
