@@ -40,10 +40,19 @@ class ImageCache {
     
     func storeImage(image: UIImage?, withIdentifier identifier: String) {
         let path = pathForIdentifier(identifier)
-        print(path)
         let data = UIImageJPEGRepresentation(image!, 1.0)!
         data.writeToFile(path, atomically: true)
-        print("saved")
+    }
+    
+    // MARK: deleting images
+    func deleteImages(identifier: String){
+        let path = pathForIdentifier(identifier)
+        if NSFileManager.defaultManager().fileExistsAtPath(path){
+            do {
+            try NSFileManager.defaultManager().removeItemAtPath(path)
+            } catch {}
+            print("deleted \(path)")
+        }
     }
     
     // MARK: - Helper

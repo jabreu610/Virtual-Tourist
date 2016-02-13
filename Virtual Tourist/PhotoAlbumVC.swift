@@ -90,6 +90,17 @@ class PhotoAlbumVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         return pin.photos.count
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let photo = pin.photos[indexPath.item]
+        photo.pin = nil
+        collectionView.deleteItemsAtIndexPaths([indexPath])
+        Flickr.Caches.imageCache.deleteImages(photo.id!)
+        sharedContext.deleteObject(photo)
+        self.saveContext()
+        
+        
+    }
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let photo = pin.photos[indexPath.row]
         var cellImage = UIImage(named: "placeholderImage")

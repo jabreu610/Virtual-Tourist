@@ -46,6 +46,7 @@ class TravelLocationVC: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        restoreMapRegion()
         mapView.setRegion(savedRegion, animated: true)
     }
     
